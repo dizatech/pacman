@@ -1,0 +1,36 @@
+<?php
+
+namespace {{ moduleNamespace }};
+
+use Illuminate\Support\ServiceProvider;
+
+class {{ class }} extends ServiceProvider
+{
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
+     * Bootstrap services.
+     *
+     * @return void
+     */
+     public function boot()
+     {
+         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+         $this->loadViewsFrom(__DIR__ . '/views','{{ module }}');
+         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+         $this->mergeConfigFrom(__DIR__ . '/config/{{ module }}.php', '{{ module }}');
+         $this->publishes([
+                __DIR__.'/config/{{ module }}.php' =>config_path('{{ module }}')
+         ], '{{ module }}');
+         // This line is the menu initialize helper based on dizatech/module-menu package
+         //\ModuleMenu::init('{{ module }}');
+     }
+}
