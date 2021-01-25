@@ -21,7 +21,7 @@ pacman section
 
 `module <module_name>`          Create a new module structure and service provider
 
-`provider <provider_name> <module_name>`    Create a new controller class for specific module
+`provider <provider_name> <module_name>`    Create a new provider class for specific module
 
 `controller <controller_name> <module_name>`    Create a new controller class for specific module
 
