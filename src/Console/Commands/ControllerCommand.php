@@ -6,6 +6,7 @@ use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Illuminate\Support\Facades\File;
 
 class ControllerCommand extends GeneratorCommand
 {
@@ -54,13 +55,17 @@ class ControllerCommand extends GeneratorCommand
     {
         $this->setControllerClass();
         $path = $this->getPath($this->controllerClass);
-        if ($this->alreadyExists($this->controllerClass)) {
-            $this->error($this->type.' already exists!');
+        if(File::exists('modules/' . $this->module)) {
+            if ($this->alreadyExists($this->controllerClass)) {
+                $this->error($this->type.' already exists!');
+            }else{
+                $this->makeDirectory($path);
+                $this->files->put($path, $this->buildClass($this->controllerClass));
+                $this->info($this->type.' created successfully.');
+                $this->line("<info>Created Controller :</info> $this->controllerClass");
+            }
         }else{
-            $this->makeDirectory($path);
-            $this->files->put($path, $this->buildClass($this->controllerClass));
-            $this->info($this->type.' created successfully.');
-            $this->line("<info>Created Controller :</info> $this->controllerClass");
+            $this->error('Module does not exist.create the module using pacman:module command.');
         }
     }
 
