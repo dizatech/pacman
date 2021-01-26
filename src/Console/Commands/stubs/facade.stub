@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ moduleNamespace }};
+
+/**
+ * @class \{{ moduleNamespace }}\{{ class }}
+ *
+ * @method static array example()
+ *
+ * @see \{{ repositoryNamespace }}\
+ */
+
+class {{ class }} extends BaseFacade
+{
+
+}
