@@ -69,7 +69,7 @@ class FacadeCommand extends GeneratorCommand
 
     private function setFacadeClass()
     {
-        $this->facadeClass = ucwords(strtolower($this->argument('name')));
+        $this->facadeClass = ucwords($this->argument('name'));
         $this->module = ucwords(strtolower($this->argument('module_name')));
         return $this;
     }
@@ -89,6 +89,8 @@ class FacadeCommand extends GeneratorCommand
         $stub = parent::replaceClass($stub, $name);
         // Replace stub namespace
         $stub = $this->namespaceReplace($stub);
+        // Replace stub repo namespace
+        $stub = $this->repositoryNamespaceReplace($stub);
         return str_replace('{{ class }}',$this->facadeClass, $stub);
     }
 
