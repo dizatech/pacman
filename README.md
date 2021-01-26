@@ -2,7 +2,7 @@
 Simple Laravel Package Manager
 
 pacman provides simple commands to create and manage
-your laravel packages and modules , version 1.0.0
+your laravel packages and modules
 
 ## Installation
 Using composer :
@@ -25,3 +25,8 @@ pacman section
 
 `controller <controller_name> <module_name>`    Create a new controller class for specific module
 
+`migration <migration_name> <module_name>`    Create a new migration file for specific module
+
+## ChangeLog
+
+https://github.com/dizatech/pacman/wiki/ChangeLog
