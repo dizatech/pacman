@@ -67,7 +67,7 @@ class BaseFacadeCommand extends GeneratorCommand
 
     private function setBaseFacadeClass()
     {
-        $this->module = ucwords(strtolower($this->argument('module_name')));
+        $this->module = ucwords($this->argument('module_name'));
         return $this;
     }
 

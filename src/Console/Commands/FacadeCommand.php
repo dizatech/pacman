@@ -57,6 +57,9 @@ class FacadeCommand extends GeneratorCommand
             if ($this->alreadyExists($this->facadeClass)) {
                 $this->error($this->type.' already exists!');
             }else{
+                if (!$this->alreadyExists('BaseFacade')) {
+                    $this->call('pacman:base-facade', ['module_name' => $this->module]);
+                }
                 $this->makeDirectory($path);
                 $this->files->put($path, $this->buildClass($this->facadeClass));
                 $this->info($this->type.' created successfully.');
@@ -70,7 +73,7 @@ class FacadeCommand extends GeneratorCommand
     private function setFacadeClass()
     {
         $this->facadeClass = ucwords($this->argument('name'));
-        $this->module = ucwords(strtolower($this->argument('module_name')));
+        $this->module = ucwords($this->argument('module_name'));
         return $this;
     }
 
