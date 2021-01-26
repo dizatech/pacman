@@ -4,6 +4,7 @@ namespace Dizatech\Pacman;
 
 use Dizatech\Pacman\Console\Commands\ControllerCommand;
 use Dizatech\Pacman\Console\Commands\MigrationCreateCommand;
+use Dizatech\Pacman\Console\Commands\ModelCommand;
 use Dizatech\Pacman\Console\Commands\ModuleCommand;
 use Dizatech\Pacman\Console\Commands\ProviderCommand;
 use Illuminate\Support\ServiceProvider;
@@ -32,7 +33,8 @@ class PacmanServiceProvider extends ServiceProvider
                 ModuleCommand::class,
                 ProviderCommand::class,
                 ControllerCommand::class,
-                MigrationCreateCommand::class
+                MigrationCreateCommand::class,
+                ModelCommand::class
             ]);
         }
 

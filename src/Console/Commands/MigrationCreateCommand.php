@@ -22,7 +22,7 @@ class MigrationCreateCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create a new migration for specific module';
+    protected $description = 'Create a new migration file for specific module';
 
     private $migration;
 

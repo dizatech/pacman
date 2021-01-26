@@ -8,29 +8,29 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\File;
 
-class ControllerCommand extends GeneratorCommand
+class ModelCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'pacman:controller {name} {module_name}';
+    protected $signature = 'pacman:model {name} {module_name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new controller for specific module';
+    protected $description = 'Create a new Eloquent model class for specific module';
 
-    private $controller;
+    private $model;
 
-    private $controllerClass;
+    private $modelClass;
 
     private $module;
 
-    protected $type = 'Controller';
+    protected $type = 'Model';
 
     /**
      * Get the console command arguments.
@@ -40,7 +40,7 @@ class ControllerCommand extends GeneratorCommand
     protected function getArguments()
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the controller.'],
+            ['name', InputArgument::REQUIRED, 'The name of the model.'],
             ['module_name', InputArgument::REQUIRED, 'The name of the module.'],
         ];
     }
@@ -53,28 +53,28 @@ class ControllerCommand extends GeneratorCommand
      */
     public function handle()
     {
-        $this->setControllerClass();
-        $path = $this->getPath($this->controllerClass);
+        $this->setModelClass();
+        $path = $this->getPath($this->modelClass);
         if(File::exists('modules/' . $this->module)) {
-            if ($this->alreadyExists($this->controllerClass)) {
+            if ($this->alreadyExists($this->modelClass)) {
                 $this->error($this->type.' already exists!');
             }else{
                 $this->makeDirectory($path);
-                $this->files->put($path, $this->buildClass($this->controllerClass));
+                $this->files->put($path, $this->buildClass($this->modelClass));
                 $this->info($this->type.' created successfully.');
-                $this->line("<info>Created Controller :</info> $this->controllerClass");
+                $this->line("<info>Created Model :</info> $this->modelClass");
             }
         }else{
             $this->error('Module does not exist.create the module using pacman:module command.');
         }
     }
 
-    private function setControllerClass()
+    private function setModelClass()
     {
         $name = $this->argument('name');
-        $this->controller = ucwords(strtolower($name));
+        $this->model = ucwords(strtolower($name));
         $this->module = ucwords(strtolower($this->argument('module_name')));
-        $this->controllerClass = $this->controller;
+        $this->modelClass = $this->model;
 
         return $this;
     }
@@ -89,12 +89,12 @@ class ControllerCommand extends GeneratorCommand
     protected function replaceClass($stub, $name)
     {
         if(!$this->argument('name')){
-            throw new InvalidArgumentException("Missing required argument controller name");
+            throw new InvalidArgumentException("Missing required argument model name");
         }
         $stub = parent::replaceClass($stub, $name);
         // Replace stub namespace
         $stub = $this->namespaceReplace($stub);
-        return str_replace('{{ class }}',$this->controller, $stub);
+        return str_replace('{{ class }}',$this->model, $stub);
     }
 
     protected function namespaceReplace($stub)
@@ -110,18 +110,18 @@ class ControllerCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return  __DIR__. '/stubs/controller.stub';
+        return  __DIR__. '/stubs/model.stub';
     }
 
     protected function getPath($name)
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return "modules/" . $this->module . '/src/Http/Controllers/' .str_replace('\\', '/', $name).'.php';
+        return "modules/" . $this->module . '/src/Models/' .str_replace('\\', '/', $name).'.php';
     }
 
     protected function defaultNamespace(): string
     {
-        return 'Modules\\' . $this->module . '\Http\Controllers';
+        return 'Modules\\' . $this->module . '\Models';
     }
 }
