@@ -24,8 +24,6 @@ class ControllerCommand extends GeneratorCommand
      */
     protected $description = 'Create a new controller for specific module';
 
-    private $controller;
-
     private $controllerClass;
 
     private $module;
@@ -71,11 +69,8 @@ class ControllerCommand extends GeneratorCommand
 
     private function setControllerClass()
     {
-        $name = $this->argument('name');
-        $this->controller = ucwords(strtolower($name));
+        $this->controllerClass = ucwords(strtolower($this->argument('name')));
         $this->module = ucwords(strtolower($this->argument('module_name')));
-        $this->controllerClass = $this->controller;
-
         return $this;
     }
 
@@ -94,7 +89,7 @@ class ControllerCommand extends GeneratorCommand
         $stub = parent::replaceClass($stub, $name);
         // Replace stub namespace
         $stub = $this->namespaceReplace($stub);
-        return str_replace('{{ class }}',$this->controller, $stub);
+        return str_replace('{{ class }}',$this->controllerClass, $stub);
     }
 
     protected function namespaceReplace($stub)
