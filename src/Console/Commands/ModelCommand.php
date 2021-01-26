@@ -73,7 +73,7 @@ class ModelCommand extends GeneratorCommand
     {
         $name = $this->argument('name');
         $this->modelClass = ucwords(strtolower($name));
-        $this->module = ucwords(strtolower($this->argument('module_name')));
+        $this->module = ucwords($this->argument('module_name'));
 
         return $this;
     }
