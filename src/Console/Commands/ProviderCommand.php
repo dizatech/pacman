@@ -23,8 +23,6 @@ class ProviderCommand extends GeneratorCommand
      */
     protected $description = 'Create a new service provider for specific module';
 
-    private $provider;
-
     private $providerClass;
 
     private $module;
@@ -67,10 +65,8 @@ class ProviderCommand extends GeneratorCommand
     private function setProviderClass()
     {
         $name = $this->argument('name');
-        $this->provider = ucwords(strtolower($name));
-        $this->module = ucwords(strtolower($this->argument('module_name')));
-
-        $this->providerClass = $name . 'ServiceProvider';
+        $this->providerClass = ucwords(strtolower($name));
+        $this->module = ucwords($this->argument('module_name'));
 
         return $this;
     }
@@ -92,7 +88,7 @@ class ProviderCommand extends GeneratorCommand
         $stub = $this->namespaceReplace($stub);
         // Replace module name
         $stub = $this->moduleNameReplace($stub);
-        return str_replace('{{ class }}',$this->provider, $stub);
+        return str_replace('{{ class }}',$this->providerClass, $stub);
     }
 
     protected function namespaceReplace($stub)
@@ -102,7 +98,7 @@ class ProviderCommand extends GeneratorCommand
 
     protected function moduleNameReplace($stub)
     {
-        return str_replace('{{ module }}',strtolower($this->provider), $stub);
+        return str_replace('{{ module }}',strtolower($this->providerClass), $stub);
     }
 
     /**
