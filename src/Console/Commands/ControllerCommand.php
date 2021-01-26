@@ -69,8 +69,8 @@ class ControllerCommand extends GeneratorCommand
 
     private function setControllerClass()
     {
-        $this->controllerClass = ucwords(strtolower($this->argument('name')));
-        $this->module = ucwords(strtolower($this->argument('module_name')));
+        $this->controllerClass = ucwords($this->argument('name'));
+        $this->module = ucwords($this->argument('module_name'));
         return $this;
     }
 

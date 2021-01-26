@@ -31,6 +31,10 @@ pacman section
 
 `request <request_name> <module_name>`       Create a new form request class for specific module
 
+`facade <facade_name> <module_name>`       Create a new facade class for specific module
+
+`base-facade <module_name>`       Create a new base facade class for specific module
+
 ## ChangeLog
 
 https://github.com/dizatech/pacman/wiki/ChangeLog
