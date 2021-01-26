@@ -76,7 +76,7 @@ class MigrationCreateCommand extends GeneratorCommand
         $name = $this->argument('name');
         $migration_name = ucwords(strtolower($name), '_');
         $migration_name = str_replace('_', '' , $migration_name);
-        $this->module = ucwords(strtolower($this->argument('module_name')));
+        $this->module = ucwords($this->argument('module_name'));
         $this->migrationClass = $migration_name;
         $this->fileName = $this->getFileName();
 
