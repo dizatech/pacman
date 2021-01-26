@@ -72,9 +72,8 @@ class ModelCommand extends GeneratorCommand
     private function setModelClass()
     {
         $name = $this->argument('name');
-        $this->model = ucwords(strtolower($name));
+        $this->modelClass = ucwords(strtolower($name));
         $this->module = ucwords(strtolower($this->argument('module_name')));
-        $this->modelClass = $this->model;
 
         return $this;
     }
@@ -94,7 +93,7 @@ class ModelCommand extends GeneratorCommand
         $stub = parent::replaceClass($stub, $name);
         // Replace stub namespace
         $stub = $this->namespaceReplace($stub);
-        return str_replace('{{ class }}',$this->model, $stub);
+        return str_replace('{{ class }}',$this->modelClass, $stub);
     }
 
     protected function namespaceReplace($stub)
