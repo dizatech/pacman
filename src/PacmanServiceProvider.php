@@ -2,6 +2,7 @@
 
 namespace Dizatech\Pacman;
 
+use Dizatech\Pacman\Console\Commands\BaseFacadeCommand;
 use Dizatech\Pacman\Console\Commands\ControllerCommand;
 use Dizatech\Pacman\Console\Commands\FacadeCommand;
 use Dizatech\Pacman\Console\Commands\MigrationCreateCommand;
@@ -38,7 +39,8 @@ class PacmanServiceProvider extends ServiceProvider
                 MigrationCreateCommand::class,
                 ModelCommand::class,
                 RequestCommand::class,
-                FacadeCommand::class
+                FacadeCommand::class,
+                BaseFacadeCommand::class
             ]);
         }
 

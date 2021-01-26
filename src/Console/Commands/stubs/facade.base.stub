@@ -4,7 +4,7 @@ namespace {{ moduleNamespace }};
 
 use Illuminate\Support\Facades\Facade;
 
-abstract class BaseFacade extends Facade
+abstract class {{ class }} extends Facade
 {
     protected static function getFacadeAccessor()
     {
