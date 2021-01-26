@@ -70,7 +70,7 @@ class RequestCommand extends GeneratorCommand
     private function setRequestClass()
     {
         $this->requestClass = ucwords($this->argument('name'));
-        $this->module = ucwords(strtolower($this->argument('module_name')));
+        $this->module = ucwords($this->argument('module_name'));
         return $this;
     }
 
