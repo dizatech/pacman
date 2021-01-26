@@ -29,6 +29,8 @@ pacman section
 
 `model <model_name> <module_name>`         Create a new Eloquent model class for specific module
 
+`request <request_name> <module_name>`       Create a new form request class for specific module
+
 ## ChangeLog
 
 https://github.com/dizatech/pacman/wiki/ChangeLog
