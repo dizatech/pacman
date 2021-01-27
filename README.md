@@ -35,6 +35,8 @@ pacman section
 
 `base-facade <module_name>`       Create a new base facade class for specific module
 
+`repository <repository_name> <module_name>`       Create a new repository class for specific module
+
 ## ChangeLog
 
 https://github.com/dizatech/pacman/wiki/ChangeLog

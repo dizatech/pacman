@@ -65,7 +65,7 @@ class ProviderCommand extends GeneratorCommand
     private function setProviderClass()
     {
         $name = $this->argument('name');
-        $this->providerClass = ucwords(strtolower($name));
+        $this->providerClass = ucwords($name);
         $this->module = ucwords($this->argument('module_name'));
 
         return $this;

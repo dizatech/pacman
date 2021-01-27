@@ -115,7 +115,7 @@ class MigrationCreateCommand extends GeneratorCommand
     {
         $migration_class = str_replace('create', '' , $this->argument('name'));
         $migration_class = str_replace('table', '' , $migration_class);
-        $migration_class = ucwords(strtolower($migration_class), '_');
+        $migration_class = ucwords($migration_class, '_');
         $migration_class = str_replace('_', '' , $migration_class);
         return $migration_class;
     }

@@ -72,7 +72,7 @@ class ModelCommand extends GeneratorCommand
     private function setModelClass()
     {
         $name = $this->argument('name');
-        $this->modelClass = ucwords(strtolower($name));
+        $this->modelClass = ucwords($name);
         $this->module = ucwords($this->argument('module_name'));
 
         return $this;
