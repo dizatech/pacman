@@ -9,6 +9,7 @@ use Dizatech\Pacman\Console\Commands\MigrationCreateCommand;
 use Dizatech\Pacman\Console\Commands\ModelCommand;
 use Dizatech\Pacman\Console\Commands\ModuleCommand;
 use Dizatech\Pacman\Console\Commands\ProviderCommand;
+use Dizatech\Pacman\Console\Commands\RepositoryCommand;
 use Dizatech\Pacman\Console\Commands\RequestCommand;
 use Illuminate\Support\ServiceProvider;
 
@@ -40,7 +41,8 @@ class PacmanServiceProvider extends ServiceProvider
                 ModelCommand::class,
                 RequestCommand::class,
                 FacadeCommand::class,
-                BaseFacadeCommand::class
+                BaseFacadeCommand::class,
+                RepositoryCommand::class
             ]);
         }
 
