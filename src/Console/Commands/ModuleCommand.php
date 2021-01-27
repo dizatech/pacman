@@ -51,7 +51,7 @@ class ModuleCommand extends Command
      */
     public function handle()
     {
-        $name = $this->argument('name');
+        $name = ucwords($this->argument('name'));
         if(!File::exists('modules/' . $name)) {
             // path does not exist, create module structure
             $directories = array(
