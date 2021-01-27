@@ -11,6 +11,7 @@ use Dizatech\Pacman\Console\Commands\ModuleCommand;
 use Dizatech\Pacman\Console\Commands\ProviderCommand;
 use Dizatech\Pacman\Console\Commands\RepositoryCommand;
 use Dizatech\Pacman\Console\Commands\RequestCommand;
+use Dizatech\Pacman\Console\Commands\SeederCommand;
 use Illuminate\Support\ServiceProvider;
 
 class PacmanServiceProvider extends ServiceProvider
@@ -42,7 +43,8 @@ class PacmanServiceProvider extends ServiceProvider
                 RequestCommand::class,
                 FacadeCommand::class,
                 BaseFacadeCommand::class,
-                RepositoryCommand::class
+                RepositoryCommand::class,
+                SeederCommand::class
             ]);
         }
 
