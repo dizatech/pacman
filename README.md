@@ -27,6 +27,8 @@ pacman section
 
 `migration <migration_name> <module_name>`    Create a new migration file for specific module
 
+`seeder <seeder_name> <module_name>`    Create a new seeder class for specific module
+
 `model <model_name> <module_name>`         Create a new Eloquent model class for specific module
 
 `request <request_name> <module_name>`       Create a new form request class for specific module
