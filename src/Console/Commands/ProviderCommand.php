@@ -6,6 +6,7 @@ use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Input\InputOption;
 
 class ProviderCommand extends GeneratorCommand
 {
@@ -14,7 +15,7 @@ class ProviderCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'pacman:provider {name} {module_name}';
+    protected $signature = 'pacman:provider {name} {module_name} {--directory=}';
 
     /**
      * The console command description.
@@ -29,6 +30,8 @@ class ProviderCommand extends GeneratorCommand
 
     protected $type = 'Service Provider';
 
+    protected $directory = 'modules';
+
     /**
      * Get the console command arguments.
      *
@@ -39,6 +42,13 @@ class ProviderCommand extends GeneratorCommand
         return [
             ['name', InputArgument::REQUIRED, 'The name of the service provider.'],
             ['module_name', InputArgument::REQUIRED, 'The name of the module.'],
+        ];
+    }
+
+    protected function getOptions()
+    {
+        return [
+            ['directory', InputOption::VALUE_OPTIONAL, 'The name of the directory, default is modules'],
         ];
     }
 
@@ -66,6 +76,10 @@ class ProviderCommand extends GeneratorCommand
     {
         $name = $this->argument('name');
         $this->providerClass = ucwords($name);
+        $this->directory = ucwords($this->option('directory'));
+        if ($this->directory == null){
+            $this->directory = 'modules';
+        }
         $this->module = ucwords($this->argument('module_name'));
 
         return $this;
@@ -116,11 +130,11 @@ class ProviderCommand extends GeneratorCommand
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return "modules/" . $this->module . '/src/' .str_replace('\\', '/', $name).'.php';
+        return strtolower($this->directory) . "/" . $this->module . '/src/' .str_replace('\\', '/', $name).'.php';
     }
 
     protected function defaultNamespace(): string
     {
-        return 'Modules\\' . $this->module;
+        return $this->directory . '\\' . $this->module;
     }
 }

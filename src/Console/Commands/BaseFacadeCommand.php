@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\Console\Input\InputOption;
 
 class BaseFacadeCommand extends GeneratorCommand
 {
@@ -15,7 +16,7 @@ class BaseFacadeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'pacman:base-facade {module_name}';
+    protected $signature = 'pacman:base-facade {module_name} {--directory=}';
 
     /**
      * The console command description.
@@ -30,6 +31,8 @@ class BaseFacadeCommand extends GeneratorCommand
 
     protected $type = 'BaseFacade';
 
+    protected $directory;
+
     /**
      * Get the console command arguments.
      *
@@ -39,6 +42,13 @@ class BaseFacadeCommand extends GeneratorCommand
     {
         return [
             ['module_name', InputArgument::REQUIRED, 'The name of the module.'],
+        ];
+    }
+
+    protected function getOptions()
+    {
+        return [
+            ['directory', InputOption::VALUE_OPTIONAL, 'The name of the directory, default is modules'],
         ];
     }
 
@@ -68,6 +78,10 @@ class BaseFacadeCommand extends GeneratorCommand
     private function setBaseFacadeClass()
     {
         $this->module = ucwords($this->argument('module_name'));
+        $this->directory = ucwords($this->option('directory'));
+        if ($this->directory == null){
+            $this->directory = 'modules';
+        }
         return $this;
     }
 
@@ -110,16 +124,16 @@ class BaseFacadeCommand extends GeneratorCommand
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return "modules/" . $this->module . '/src/Facades/' .str_replace('\\', '/', $name).'.php';
+        return strtolower($this->directory) . "/" . $this->module . '/src/Facades/' .str_replace('\\', '/', $name).'.php';
     }
 
     protected function defaultNamespace(): string
     {
-        return 'Modules\\' . $this->module . '\Facades';
+        return $this->directory . '\\' . $this->module . '\Facades';
     }
 
     protected function repositoryDefaultNamespace(): string
     {
-        return 'Modules\\' . $this->module . '\Repositories';
+        return $this->directory . '\\' . $this->module . '\Repositories';
     }
 }

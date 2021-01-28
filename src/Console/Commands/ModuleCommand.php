@@ -5,6 +5,7 @@ namespace Dizatech\Pacman\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class ModuleCommand extends Command
 {
@@ -13,7 +14,7 @@ class ModuleCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'pacman:module {name}';
+    protected $signature = 'pacman:module {name} {--directory=}';
 
     /**
      * The console command description.
@@ -21,6 +22,8 @@ class ModuleCommand extends Command
      * @var string
      */
     protected $description = 'Create a new module structure and service provider';
+
+    protected $directory;
 
     /**
      * Create a new command instance.
@@ -44,6 +47,13 @@ class ModuleCommand extends Command
         ];
     }
 
+    protected function getOptions()
+    {
+        return [
+            ['directory', InputOption::VALUE_OPTIONAL, 'The name of the directory, default is modules'],
+        ];
+    }
+
     /**
      * Execute the console command.
      *
@@ -51,8 +61,12 @@ class ModuleCommand extends Command
      */
     public function handle()
     {
+        $this->directory = ucwords($this->option('directory'));
+        if ($this->directory == null){
+            $this->directory = 'modules';
+        }
         $name = ucwords($this->argument('name'));
-        if(!File::exists('modules/' . $name)) {
+        if(!File::exists($this->directory . '/' . $name)) {
             // path does not exist, create module structure
             $directories = array(
                 $name,
@@ -78,7 +92,7 @@ class ModuleCommand extends Command
             foreach ($directories as $directory){
                 $this->makeModuleDir($directory);
             }
-            $this->call('pacman:provider', ['name' => $name, 'module_name' => $name]);
+            $this->call('pacman:provider', ['name' => $name . 'ServiceProvider', 'module_name' => $name, '--directory' => $this->directory]);
             $this->info('Module has been created successfully!');
         }else{
             $this->error('Module already exist!');
@@ -87,6 +101,6 @@ class ModuleCommand extends Command
 
     public function makeModuleDir($directory)
     {
-        File::makeDirectory('modules/' . $directory,0777,true);
+        File::makeDirectory($this->directory . '/' . $directory,0777,true);
     }
 }
