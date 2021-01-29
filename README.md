@@ -1,6 +1,11 @@
 # Pacman
 Simple Laravel Package Manager
 
+[![GitHub issues](https://img.shields.io/github/issues/dizatech/pacman?style=flat-square)](https://github.com/dizatech/pacman/issues)
+[![GitHub stars](https://img.shields.io/github/stars/dizatech/pacman?style=flat-square)](https://github.com/dizatech/pacman/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/dizatech/pacman?style=flat-square)](https://github.com/dizatech/pacman/network)
+[![GitHub license](https://img.shields.io/github/license/dizatech/pacman?style=flat-square)](https://github.com/dizatech/pacman/blob/master/LICENSE)
+
 pacman provides simple commands to create and manage
 your laravel packages and modules
 
@@ -16,6 +21,10 @@ You can always checkout new commands by `php artisan list` ,
 pacman section
 
 `php artisan pacman:<command>` with arguments
+
+`php artisan pacman:<command> --directory=<specific-directory>` --directory is optional
+
+default directory is `modules`
 
 ## Available Commands
 
