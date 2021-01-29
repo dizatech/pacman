@@ -78,7 +78,7 @@ class ProviderCommand extends GeneratorCommand
         $this->providerClass = ucwords($name);
         $this->directory = ucwords($this->option('directory'));
         if ($this->directory == null){
-            $this->directory = 'modules';
+            $this->directory = 'Modules';
         }
         $this->module = ucwords($this->argument('module_name'));
 

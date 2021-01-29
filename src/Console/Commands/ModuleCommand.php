@@ -61,7 +61,7 @@ class ModuleCommand extends Command
      */
     public function handle()
     {
-        $this->directory = ucwords($this->option('directory'));
+        $this->directory = strtolower($this->option('directory'));
         if ($this->directory == null){
             $this->directory = 'modules';
         }
