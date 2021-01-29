@@ -112,7 +112,8 @@ class ProviderCommand extends GeneratorCommand
 
     protected function moduleNameReplace($stub)
     {
-        return str_replace('{{ module }}',lcfirst($this->providerClass), $stub);
+        $moduleNamespace = str_replace('ServiceProvider', '', $this->providerClass);
+        return str_replace('{{ module }}',lcfirst($moduleNamespace), $stub);
     }
 
     /**
