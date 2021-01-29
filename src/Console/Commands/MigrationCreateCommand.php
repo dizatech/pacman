@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\Console\Input\InputOption;
 
 class MigrationCreateCommand extends GeneratorCommand
 {
@@ -15,7 +16,7 @@ class MigrationCreateCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'pacman:migration {name} {module_name}';
+    protected $signature = 'pacman:migration {name} {module_name} {--directory=}';
 
     /**
      * The console command description.
@@ -34,6 +35,8 @@ class MigrationCreateCommand extends GeneratorCommand
 
     protected $type = 'Migration';
 
+    protected $directory;
+
     /**
      * Get the console command arguments.
      *
@@ -47,6 +50,13 @@ class MigrationCreateCommand extends GeneratorCommand
         ];
     }
 
+    protected function getOptions()
+    {
+        return [
+            ['directory', InputOption::VALUE_OPTIONAL, 'The name of the directory, default is modules'],
+        ];
+    }
+
     /**
      * Execute the console command.
      *
@@ -57,7 +67,7 @@ class MigrationCreateCommand extends GeneratorCommand
     {
         $this->setMigrationClass();
         $path = $this->getPath($this->fileName);
-        if(File::exists('modules/' . $this->module)) {
+        if(File::exists($this->directory . '/' . $this->module)) {
             if (!empty(glob($this->migration_path() . '*_' . $this->argument('name') . '.php'))) {
                 $this->error($this->type.' already exists!');
             }else{
@@ -79,7 +89,10 @@ class MigrationCreateCommand extends GeneratorCommand
         $this->module = ucwords($this->argument('module_name'));
         $this->migrationClass = $migration_name;
         $this->fileName = $this->getFileName();
-
+        $this->directory = ucwords($this->option('directory'));
+        if ($this->directory == null){
+            $this->directory = 'Modules';
+        }
         return $this;
     }
 
@@ -135,7 +148,7 @@ class MigrationCreateCommand extends GeneratorCommand
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return "modules/" . $this->module . '/src/database/migrations/' .str_replace('\\', '/', $name).'.php';
+        return strtolower($this->directory) . "/" . $this->module . '/src/database/migrations/' .str_replace('\\', '/', $name).'.php';
     }
 
     /**
@@ -156,7 +169,7 @@ class MigrationCreateCommand extends GeneratorCommand
 
     private function migration_path(): string
     {
-        return 'modules/' . $this->module . '/src/database/migrations/';
+        return strtolower($this->directory) . "/" . $this->module . '/src/database/migrations/';
     }
 
 }
