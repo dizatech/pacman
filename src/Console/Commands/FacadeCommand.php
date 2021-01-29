@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\Console\Input\InputOption;
 
 class FacadeCommand extends GeneratorCommand
 {
@@ -15,7 +16,7 @@ class FacadeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'pacman:facade {name} {module_name}';
+    protected $signature = 'pacman:facade {name} {module_name} {--directory=}';
 
     /**
      * The console command description.
@@ -30,6 +31,8 @@ class FacadeCommand extends GeneratorCommand
 
     protected $type = 'Facade';
 
+    protected $directory;
+
     /**
      * Get the console command arguments.
      *
@@ -43,6 +46,13 @@ class FacadeCommand extends GeneratorCommand
         ];
     }
 
+    protected function getOptions()
+    {
+        return [
+            ['directory', InputOption::VALUE_OPTIONAL, 'The name of the directory, default is modules'],
+        ];
+    }
+
     /**
      * Execute the console command.
      *
@@ -53,12 +63,12 @@ class FacadeCommand extends GeneratorCommand
     {
         $this->setFacadeClass();
         $path = $this->getPath($this->facadeClass);
-        if(File::exists('modules/' . $this->module)) {
+        if(File::exists($this->directory . '/' . $this->module)) {
             if ($this->alreadyExists($this->facadeClass)) {
                 $this->error($this->type.' already exists!');
             }else{
                 if (!$this->alreadyExists('BaseFacade')) {
-                    $this->call('pacman:base-facade', ['module_name' => $this->module]);
+                    $this->call('pacman:base-facade', ['module_name' => $this->module, '--directory' => $this->directory]);
                 }
                 $this->makeDirectory($path);
                 $this->files->put($path, $this->buildClass($this->facadeClass));
@@ -74,6 +84,10 @@ class FacadeCommand extends GeneratorCommand
     {
         $this->facadeClass = ucwords($this->argument('name'));
         $this->module = ucwords($this->argument('module_name'));
+        $this->directory = ucwords($this->option('directory'));
+        if ($this->directory == null){
+            $this->directory = 'Modules';
+        }
         return $this;
     }
 
@@ -122,16 +136,16 @@ class FacadeCommand extends GeneratorCommand
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return "modules/" . $this->module . '/src/Facades/' .str_replace('\\', '/', $name).'.php';
+        return strtolower($this->directory) . "/" . $this->module . '/src/Facades/' .str_replace('\\', '/', $name).'.php';
     }
 
     protected function defaultNamespace(): string
     {
-        return 'Modules\\' . $this->module . '\Facades';
+        return $this->directory . '\\' . $this->module . '\Facades';
     }
 
     protected function repositoryDefaultNamespace(): string
     {
-        return 'Modules\\' . $this->module . '\Repositories';
+        return $this->directory . '\\' . $this->module . '\Repositories';
     }
 }
