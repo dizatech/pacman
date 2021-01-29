@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\Console\Input\InputOption;
 
 class SeederCommand extends GeneratorCommand
 {
@@ -15,7 +16,7 @@ class SeederCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'pacman:seeder {name} {module_name}';
+    protected $signature = 'pacman:seeder {name} {module_name} {--directory=}';
 
     /**
      * The console command description.
@@ -30,6 +31,8 @@ class SeederCommand extends GeneratorCommand
 
     protected $type = 'Seeder';
 
+    protected $directory;
+
     /**
      * Get the console command arguments.
      *
@@ -43,6 +46,13 @@ class SeederCommand extends GeneratorCommand
         ];
     }
 
+    protected function getOptions()
+    {
+        return [
+            ['directory', InputOption::VALUE_OPTIONAL, 'The name of the directory, default is modules'],
+        ];
+    }
+
     /**
      * Execute the console command.
      *
@@ -53,7 +63,7 @@ class SeederCommand extends GeneratorCommand
     {
         $this->setSeederClass();
         $path = $this->getPath($this->seederClass);
-        if(File::exists('modules/' . $this->module)) {
+        if(File::exists($this->directory . '/' . $this->module)) {
             if ($this->alreadyExists($this->seederClass)) {
                 $this->error($this->type.' already exists!');
             }else{
@@ -71,6 +81,10 @@ class SeederCommand extends GeneratorCommand
     {
         $this->seederClass = ucwords($this->argument('name'));
         $this->module = ucwords($this->argument('module_name'));
+        $this->directory = ucwords($this->option('directory'));
+        if ($this->directory == null){
+            $this->directory = 'Modules';
+        }
         return $this;
     }
 
@@ -112,11 +126,11 @@ class SeederCommand extends GeneratorCommand
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return "modules/" . $this->module . '/src/database/seeders/' .str_replace('\\', '/', $name).'.php';
+        return strtolower($this->directory) . "/" . $this->module . '/src/database/seeders/' .str_replace('\\', '/', $name).'.php';
     }
 
     protected function defaultNamespace(): string
     {
-        return 'Modules\\' . $this->module . '\database\seeders';
+        return $this->directory . '\\' . $this->module . '\database\seeders';
     }
 }
