@@ -62,7 +62,7 @@ class BaseFacadeCommand extends GeneratorCommand
     {
         $this->setBaseFacadeClass();
         $path = $this->getPath($this->baseFacadeClass);
-        if(File::exists('modules/' . $this->module)) {
+        if(File::exists($this->directory . '/' . $this->module)) {
             if ($this->alreadyExists($this->baseFacadeClass)) {
                 $this->error($this->type.' already exists!');
             }else{
