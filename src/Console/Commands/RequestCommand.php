@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\Console\Input\InputOption;
 
 class RequestCommand extends GeneratorCommand
 {
@@ -15,7 +16,7 @@ class RequestCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'pacman:request {name} {module_name}';
+    protected $signature = 'pacman:request {name} {module_name} {--directory=}';
 
     /**
      * The console command description.
@@ -30,6 +31,8 @@ class RequestCommand extends GeneratorCommand
 
     protected $type = 'Request';
 
+    protected $directory;
+
     /**
      * Get the console command arguments.
      *
@@ -43,6 +46,13 @@ class RequestCommand extends GeneratorCommand
         ];
     }
 
+    protected function getOptions()
+    {
+        return [
+            ['directory', InputOption::VALUE_OPTIONAL, 'The name of the directory, default is modules'],
+        ];
+    }
+
     /**
      * Execute the console command.
      *
@@ -53,7 +63,7 @@ class RequestCommand extends GeneratorCommand
     {
         $this->setRequestClass();
         $path = $this->getPath($this->requestClass);
-        if(File::exists('modules/' . $this->module)) {
+        if(File::exists($this->directory . '/' . $this->module)) {
             if ($this->alreadyExists($this->requestClass)) {
                 $this->error($this->type.' already exists!');
             }else{
@@ -71,6 +81,10 @@ class RequestCommand extends GeneratorCommand
     {
         $this->requestClass = ucwords($this->argument('name'));
         $this->module = ucwords($this->argument('module_name'));
+        $this->directory = ucwords($this->option('directory'));
+        if ($this->directory == null){
+            $this->directory = 'Modules';
+        }
         return $this;
     }
 
@@ -112,11 +126,11 @@ class RequestCommand extends GeneratorCommand
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return "modules/" . $this->module . '/src/Http/Requests/' .str_replace('\\', '/', $name).'.php';
+        return strtolower($this->directory) . "/" . $this->module . '/src/Http/Requests/' .str_replace('\\', '/', $name).'.php';
     }
 
     protected function defaultNamespace(): string
     {
-        return 'Modules\\' . $this->module . '\Http\Requests';
+        return $this->directory . '\\' . $this->module . '\Http\Requests';
     }
 }
