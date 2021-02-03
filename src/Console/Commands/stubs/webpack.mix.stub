@@ -1,0 +1,8 @@
+const mix = require('laravel-mix');
+require('laravel-mix-merge-manifest');
+
+mix.setPublicPath('../../../public').mergeManifest();
+
+// mix.js('assets/js/tamadkala-product.js', 'modules/js')
+//    .sass('assets/sass/tamadkala-product.scss', 'modules/css')
+//    .version();
