@@ -76,9 +76,9 @@ class ProviderCommand extends GeneratorCommand
     {
         $name = $this->argument('name');
         $this->providerClass = ucwords($name);
-        $this->directory = ucwords($this->option('directory'));
+        $this->directory = $this->option('directory');
         if ($this->directory == null){
-            $this->directory = 'Modules';
+            $this->directory = 'modules';
         }
         $this->module = ucwords($this->argument('module_name'));
 
@@ -136,6 +136,6 @@ class ProviderCommand extends GeneratorCommand
 
     protected function defaultNamespace(): string
     {
-        return $this->directory . '\\' . $this->module;
+        return ucwords($this->directory) . '\\' . $this->module;
     }
 }

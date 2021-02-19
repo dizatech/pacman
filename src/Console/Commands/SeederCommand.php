@@ -81,9 +81,9 @@ class SeederCommand extends GeneratorCommand
     {
         $this->seederClass = ucwords($this->argument('name'));
         $this->module = ucwords($this->argument('module_name'));
-        $this->directory = ucwords($this->option('directory'));
+        $this->directory = $this->option('directory');
         if ($this->directory == null){
-            $this->directory = 'Modules';
+            $this->directory = 'modules';
         }
         return $this;
     }
@@ -131,6 +131,6 @@ class SeederCommand extends GeneratorCommand
 
     protected function defaultNamespace(): string
     {
-        return $this->directory . '\\' . $this->module . '\database\seeders';
+        return ucwords($this->directory) . '\\' . $this->module . '\database\seeders';
     }
 }

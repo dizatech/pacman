@@ -84,9 +84,9 @@ class ModelCommand extends GeneratorCommand
         $name = $this->argument('name');
         $this->modelClass = ucwords($name);
         $this->module = ucwords($this->argument('module_name'));
-        $this->directory = ucwords($this->option('directory'));
+        $this->directory = $this->option('directory');
         if ($this->directory == null){
-            $this->directory = 'Modules';
+            $this->directory = 'modules';
         }
         return $this;
     }
@@ -134,6 +134,6 @@ class ModelCommand extends GeneratorCommand
 
     protected function defaultNamespace(): string
     {
-        return $this->directory . '\\' . $this->module . '\Models';
+        return ucwords($this->directory) . '\\' . $this->module . '\Models';
     }
 }

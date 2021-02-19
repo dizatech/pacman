@@ -81,9 +81,9 @@ class ControllerCommand extends GeneratorCommand
     {
         $this->controllerClass = ucwords($this->argument('name'));
         $this->module = ucwords($this->argument('module_name'));
-        $this->directory = ucwords($this->option('directory'));
+        $this->directory = $this->option('directory');
         if ($this->directory == null){
-            $this->directory = 'Modules';
+            $this->directory = 'modules';
         }
         return $this;
     }
@@ -131,6 +131,6 @@ class ControllerCommand extends GeneratorCommand
 
     protected function defaultNamespace(): string
     {
-        return $this->directory . '\\' . $this->module . '\Http\Controllers';
+        return ucwords($this->directory) . '\\' . $this->module . '\Http\Controllers';
     }
 }

@@ -89,9 +89,9 @@ class MigrationCreateCommand extends GeneratorCommand
         $this->module = ucwords($this->argument('module_name'));
         $this->migrationClass = $migration_name;
         $this->fileName = $this->getFileName();
-        $this->directory = ucwords($this->option('directory'));
+        $this->directory = $this->option('directory');
         if ($this->directory == null){
-            $this->directory = 'Modules';
+            $this->directory = 'modules';
         }
         return $this;
     }

@@ -81,9 +81,9 @@ class RepositoryCommand extends GeneratorCommand
     {
         $this->repositoryClass = ucwords($this->argument('name'));
         $this->module = ucwords($this->argument('module_name'));
-        $this->directory = ucwords($this->option('directory'));
+        $this->directory = $this->option('directory');
         if ($this->directory == null){
-            $this->directory = 'Modules';
+            $this->directory = 'modules';
         }
         return $this;
     }
@@ -131,6 +131,6 @@ class RepositoryCommand extends GeneratorCommand
 
     protected function defaultNamespace(): string
     {
-        return $this->directory . '\\' . $this->module . '\Repositories';
+        return ucwords($this->directory) . '\\' . $this->module . '\Repositories';
     }
 }
