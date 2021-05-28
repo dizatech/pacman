@@ -49,7 +49,7 @@ class PacmanServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__ . '/config/module-commands.php' => config_path('module-commands.php'),
-        ], 'module-commands');
+            __DIR__ . '/config/pacman.php' => config_path('pacman.php'),
+        ], 'pacman');
     }
 }

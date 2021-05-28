@@ -28,7 +28,7 @@ class {{ class }} extends ServiceProvider
          $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
          $this->mergeConfigFrom(__DIR__ . '/config/{{ module }}.php', '{{ module }}');
          $this->publishes([
-                __DIR__.'/config/{{ module }}.php' =>config_path('{{ module }}')
+                __DIR__.'/config/{{ module }}.php' =>config_path('{{ module }}.php')
          ], '{{ module }}');
          // This line is the menu initialize helper based on dizatech/module-menu package
          //\ModuleMenu::init('{{ module }}');
