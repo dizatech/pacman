@@ -65,7 +65,7 @@ class ModuleCommand extends Command
         if ($this->directory == null){
             $this->directory = 'modules';
         }
-        $name = ucwords($this->argument('name'));
+        $name = $this->argument('name');
         if(!File::exists($this->directory . '/' . $name)) {
             // path does not exist, create module structure
             $directories = array(
