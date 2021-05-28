@@ -101,6 +101,6 @@ class ModuleCommand extends Command
 
     public function makeModuleDir($directory)
     {
-        File::makeDirectory($this->directory . '/' . $directory,0777,true);
+        File::makeDirectory($this->directory . '/' . $directory,0644,true);
     }
 }
