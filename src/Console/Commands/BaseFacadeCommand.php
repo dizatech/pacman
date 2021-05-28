@@ -77,7 +77,7 @@ class BaseFacadeCommand extends GeneratorCommand
 
     private function setBaseFacadeClass()
     {
-        $this->module = ucwords($this->argument('module_name'));
+        $this->module = $this->argument('module_name');
         $this->directory = $this->option('directory');
         if ($this->directory == null){
             $this->directory = 'modules';
@@ -129,11 +129,11 @@ class BaseFacadeCommand extends GeneratorCommand
 
     protected function defaultNamespace(): string
     {
-        return $this->directory . '\\' . $this->module . '\Facades';
+        return $this->directory . '\\' . ucwords($this->module) . '\Facades';
     }
 
     protected function repositoryDefaultNamespace(): string
     {
-        return ucwords($this->directory) . '\\' . $this->module . '\Repositories';
+        return ucwords($this->directory) . '\\' . ucwords($this->module) . '\Repositories';
     }
 }

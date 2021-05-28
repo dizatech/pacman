@@ -80,7 +80,7 @@ class RequestCommand extends GeneratorCommand
     private function setRequestClass()
     {
         $this->requestClass = ucwords($this->argument('name'));
-        $this->module = ucwords($this->argument('module_name'));
+        $this->module = $this->argument('module_name');
         $this->directory = $this->option('directory');
         if ($this->directory == null){
             $this->directory = 'modules';
@@ -131,6 +131,6 @@ class RequestCommand extends GeneratorCommand
 
     protected function defaultNamespace(): string
     {
-        return ucwords($this->directory) . '\\' . $this->module . '\Http\Requests';
+        return ucwords($this->directory) . '\\' . ucwords($this->module) . '\Http\Requests';
     }
 }
